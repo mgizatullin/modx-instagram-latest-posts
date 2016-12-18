@@ -7,12 +7,14 @@ N.B.! Please take into account, 20 latest posts can be returned only as it's lim
 |:-------------:|:----------------------------------------------------------------------------------------------:|:--------------:|
 | &accountName  | Instagram account name                                                                         |                |
 | &limit        | Set the limit on the maximum number of items that will be displayed                            |        6       |
-| &showVideo    | Do we need to show the video as well? Available options: 1, 0                          |      0     |
-| &imageQuality | Set the image quality. Available options: low_resolution, thumbnail, standard_resolution     | low_resolution |
-| &videoQuality | Set the video quality. Available options: low_resolution, standard_resolution, low_bandwidth | low_resolution |
-| &innerTpl | Inner chunk name | Instagram-Inner |
-| &outerTpl | Outer chunk name | Instagram-Outer |
-| &errorTpl | Error chunk name | Instagram-Error |
+| &showVideo    | Do we need to show the video as well? Available options: 1, 0                                  |        0       |
+| &imageQuality | Set the image quality. Available options: low_resolution, thumbnail, standard_resolution       | low_resolution |
+| &videoQuality | Set the video quality. Available options: low_resolution, standard_resolution, low_bandwidth   | low_resolution |
+| &innerTpl     | Inner chunk name                                                                               | Instagram-Inner |
+| &outerTpl     | Outer chunk name                                                                               | Instagram-Outer |
+| &errorTpl     | Error chunk name                                                                               | Instagram-Error |
+| &cacheEnabled | Do we need to cache the data from Instagram? Available options: 1, 0                           |        1       |
+| &cacheExpTime | Set the cache expiry time in seconds                                                           |      3600      |
 
 Installation
 ---------
@@ -62,5 +64,6 @@ Usage
 	&videoQuality=`low_bandwidth`
 	&innerTpl=`MyInnerTemplate`
 	&outerTpl=`MyOuterTemplate`
-	&errorTpl=`MyErrorTemplate`
+	&cacheEnabled=`1`
+	&cacheExpTime=`1800`
 ]]
