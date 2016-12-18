@@ -4,7 +4,7 @@
  *
  * @author Igor Sukhinin <suhinin@gmail.com>, Baltic Design Colors Ltd
  * @license: https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version: 1.1.1
+ * @version: 1.2.0
  *
  * Variables
  * ---------
@@ -20,6 +20,8 @@
  * @property    string      $innerTpl       Inner chunk name
  * @property    string      $outerTpl       Outer chunk name
  * @property    string      $errorTpl       Error chunk name
+ * @property    integer     $cacheEnabled   Enable/disable cache (options: 1 | 0)
+ * @property    integer     $cacheExpTime   Cache expiry time
  *
  */
 
@@ -34,10 +36,14 @@ class InstagramLatestPosts
     protected $innerTpl;
     protected $outerTpl;
     protected $errorTpl;
+    protected $cacheEnabled;
+    protected $cacheExpTime;
     protected $modx;
     protected $serverMethod;
     protected $accountUrl;
     protected $output;
+    protected $cacheKey;
+    protected $cacheDir;
     protected $error;
 
     /**
@@ -57,6 +63,10 @@ class InstagramLatestPosts
         $this->innerTpl     = $config['innerTpl'];
         $this->outerTpl     = $config['outerTpl'];
         $this->errorTpl     = $config['errorTpl'];
+        $this->cacheEnabled = $config['cacheEnabled'];
+        $this->cacheExpTime = $config['cacheExpTime'];
+        $this->cacheKey     = 'latest_posts';
+        $this->cacheDir     = 'instagram_latest_posts';
     }
 
     /**
@@ -66,6 +76,21 @@ class InstagramLatestPosts
      */
     public function run()
     {
+        // Check if cache is enabled
+        if ($this->cacheEnabled == 1) {
+            // Try to get the cache
+            $cache = $this->getCache();
+
+            // Check if cache is available and is not expired
+            if ($cache !== null) {
+                // Set the output from the cache
+                $this->output = $cache;
+
+                // Stop processing the snippet
+                return true;
+            }
+        }
+
         // Check if the Instagram account name is not set
         if ($this->accountName == '') {
             $this->error = 'Instagram account name is required. Please set this property in your snippet call.';
@@ -116,6 +141,12 @@ class InstagramLatestPosts
 
         // Set the output
         $this->output = $this->setOutput($resources);
+
+        // Check if cache is enabled
+        if ($this->cacheEnabled == 1) {
+            // Save a new cache
+            $this->setCache();
+        }
 
         return true;
     }
@@ -274,7 +305,6 @@ class InstagramLatestPosts
         return $resources;
     }
 
-
     /**
      * Sets the output
      *
@@ -299,6 +329,40 @@ class InstagramLatestPosts
         return $output;
     }
 
+    /**
+     * Gets the cache if it's available
+     *
+     * @return mixed string | null $data The cached data or null if the cache is expired / not available yet
+     */
+    protected function getCache()
+    {
+        // Get the cache using MODX Cache Manager
+        $data = $this->modx->cacheManager->get(
+            $this->cacheKey,
+            [
+                xPDO::OPT_CACHE_KEY => $this->cacheDir,
+            ]
+        );
+
+        return $data;
+    }
+
+    /**
+     * Saves the output in MODX custom cache
+     */
+    protected function setCache()
+    {
+        // Save the cache using MODX Cache Manager
+        $this->modx->cacheManager->set(
+            $this->cacheKey,
+            $this->output,
+            $this->cacheExpTime,
+            [
+                xPDO::OPT_CACHE_KEY => $this->cacheDir,
+            ]
+        );
+    }
+
 }
 
 // Create config array
@@ -312,6 +376,8 @@ $config = [
     'innerTpl'      => $modx->getOption('innerTpl', $scriptProperties, 'Instagram-Inner', true),
     'outerTpl'      => $modx->getOption('outerTpl', $scriptProperties, 'Instagram-Outer', true),
     'errorTpl'      => $modx->getOption('errorTpl', $scriptProperties, 'Instagram-Error', true),
+    'cacheEnabled'  => $modx->getOption('cacheEnabled', $scriptProperties, 1, true),
+    'cacheExpTime'  => $modx->getOption('cacheExpTime', $scriptProperties, 3600, true),
 ];
 
 // Create a new InstagramLatestPosts class instance
