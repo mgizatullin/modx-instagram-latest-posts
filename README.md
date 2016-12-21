@@ -18,6 +18,12 @@ N.B.! Please take into account, 20 latest posts can be returned only as it's lim
 
 Installation
 ---------
+Please download the package "InstagramLatestPosts" via MODX Package Manager or from [MODX Extras](https://modx.com/extras/package/getlatestpostsfrominstagram) and install it
+
+OR
+
+Follow the steps below
+
 1. Create the snippet called InstagramLatestPosts and copy the snippet code there
 2. Create three chunks with the following names
   * Instagram-Outer
