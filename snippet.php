@@ -298,6 +298,12 @@ class InstagramLatestPosts
 
             // Set the link to the corresponding post
             $resources[$i]['link'] = $item->link;
+            if (isset($item->user) && is_object($item->user)) {
+                $resources[$i]['user']['full_name'] = $item->user->full_name;
+                $resources[$i]['user']['id'] = $item->user->id;
+                $resources[$i]['user']['profile_picture'] = $item->user->profile_picture;
+                $resources[$i]['user']['username'] = $item->user->username;
+            }
 
             $i++;
         }
