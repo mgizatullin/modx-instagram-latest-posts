@@ -49,6 +49,7 @@ Follow the steps below
   | [[+user.profile_picture]] | URL of the user avatar                          |
   | [[+user.username]] | Instagram account name                                 |
   | [[+user.full_name]] | Full name of account                                  |
+  | [[+caption]] | Post caption                                                 |
   
   * Instagram-Error
 
