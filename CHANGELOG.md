@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.4.0] - 2017-08-19
 ### Added
-- Added user information: profile picture, username, full name. Thanks to @ig0r74
+- Added post caption. Thanks to @ig0r74
 
 ## [1.3.0] - 2017-04-19
 ### Added
