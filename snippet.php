@@ -295,6 +295,9 @@ class InstagramLatestPosts
                 $resources[$i]['url'] = $item->images->$imageQuality->url;
                 $resources[$i]['type'] = 'image';
             }
+            
+            // Set the caption of the post
+            $resources[$i]['caption'] = $item->caption->text;
 
             // Set the link to the corresponding post
             $resources[$i]['link'] = $item->link;
