@@ -8,8 +8,6 @@ N.B.! Please take into account, 20 latest posts can be returned only as it's lim
 | &accountName  | Instagram account name                                                                         |                |
 | &limit        | Set the limit on the maximum number of items that will be displayed                            |        6       |
 | &showVideo    | Do we need to show the video as well? Available options: 1, 0                                  |        0       |
-| &imageQuality | Set the image quality. Available options: low_resolution, thumbnail, standard_resolution       | low_resolution |
-| &videoQuality | Set the video quality. Available options: low_resolution, standard_resolution, low_bandwidth   | low_resolution |
 | &innerTpl     | Inner chunk name                                                                               | Instagram-Inner |
 | &outerTpl     | Outer chunk name                                                                               | Instagram-Outer |
 | &errorTpl     | Error chunk name                                                                               | Instagram-Error |
@@ -70,8 +68,6 @@ Usage
 	&accountName=`nike`
 	&limit=`10`
 	&showVideo=`1`
-	&imageQuality=`low_resolution`
-	&videoQuality=`low_bandwidth`
 	&innerTpl=`MyInnerTemplate`
 	&outerTpl=`MyOuterTemplate`
 	&cacheEnabled=`1`
