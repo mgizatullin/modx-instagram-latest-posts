@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.5.0] - 2017-11-15
+### Added
+- Fixed the code to follow the latest changes in Instagram feed
+
 ## [1.4.0] - 2017-08-19
 ### Added
 - Added post caption. Thanks to @ig0r74
