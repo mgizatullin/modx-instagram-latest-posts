@@ -4,7 +4,7 @@
  *
  * @author Igor Sukhinin <suhinin@gmail.com>, Baltic Design Colors Ltd
  * @license: https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version: 1.4.0
+ * @version: 1.5.0
  *
  * Variables
  * ---------
@@ -15,8 +15,6 @@
  * @property    string      $accountName    Instagram account name; required
  * @property    integer     $limit          Limit on the maximum number of items that will be displayed
  * @property    integer     $showVideo      Show the video if it's available (options: 1 | 0)
- * @property    string      $imageQuality   Image quality (options: low_resolution | thumbnail | standard_resolution)
- * @property    string      $videoQuality   Video quality (options: low_resolution | standard_resolution | low_bandwidth)
  * @property    string      $innerTpl       Inner chunk name
  * @property    string      $outerTpl       Outer chunk name
  * @property    string      $errorTpl       Error chunk name
@@ -31,8 +29,6 @@ class InstagramLatestPosts
     protected $accountName;
     protected $limit;
     protected $showVideo;
-    protected $imageQuality;
-    protected $videoQuality;
     protected $innerTpl;
     protected $outerTpl;
     protected $errorTpl;
@@ -45,6 +41,9 @@ class InstagramLatestPosts
     protected $cacheKey;
     protected $cacheDir;
     protected $error;
+    protected $fullName;
+    protected $id;
+    protected $profile_picture;
 
     /**
      * InstagramLatestPosts constructor.
@@ -58,8 +57,6 @@ class InstagramLatestPosts
         $this->accountName  = $config['accountName'];
         $this->limit        = $config['limit'];
         $this->showVideo    = $config['showVideo'];
-        $this->imageQuality = $config['imageQuality'];
-        $this->videoQuality = $config['videoQuality'];
         $this->innerTpl     = $config['innerTpl'];
         $this->outerTpl     = $config['outerTpl'];
         $this->errorTpl     = $config['errorTpl'];
@@ -110,7 +107,7 @@ class InstagramLatestPosts
         $this->accountUrl   = 'https://www.instagram.com/' . $this->accountName;
 
         // Set the JSON URL
-        $jsonUrl = $this->accountUrl . '/media/';
+        $jsonUrl = $this->accountUrl . '/?__a=1';
 
         // Get the JSON content
         $json = $this->getJsonContent($jsonUrl);
@@ -125,13 +122,22 @@ class InstagramLatestPosts
         $data = $this->parseJson($json);
 
         // Check if JSON parsing failed
-        if ($data === null) {
+        if ($data === null || !isset($data->user->media)) {
             $this->error = 'The JSON parsing failed.';
             return false;
         }
 
+        // Set full name
+        $this->fullName = (isset($data->user->full_name)) ? $data->user->full_name : '';
+
+        // Set account ID
+        $this->id = (isset($data->user->id)) ? $data->user->id : '';
+
+        // Set profile picture
+        $this->profile_picture = (isset($data->user->profile_pic_url_hd)) ? $data->user->profile_pic_url_hd : '';
+
         // Get JSON data in an object containing resources
-        $resources = $this->getResources($data);
+        $resources = $this->getResources($data->user->media);
 
         // Check if there is no any resource
         if (count($resources) == 0) {
@@ -266,6 +272,35 @@ class InstagramLatestPosts
     }
 
     /**
+     * Gets the external video source
+     *
+     * @param string $pageId Page ID
+     * @return string $resources Prepared array of resources
+     */
+    protected function getVideoSource($pageId)
+    {
+        $jsonUrl = 'https://www.instagram.com/p/' . $pageId . '/?__a=1';
+
+        // Get the JSON content
+        $json = $this->getJsonContent($jsonUrl);
+
+        // Check if loading of JSON content failed
+        if ($json === false) {
+            return '';
+        }
+
+        // Parse JSON in an object
+        $data = $this->parseJson($json);
+
+        // Check if JSON parsing failed
+        if ($data === null || !isset($data->graphql->shortcode_media->video_url)) {
+            return '';
+        }
+
+        return $data->graphql->shortcode_media->video_url;
+    }
+
+    /**
      * Gets the resources
      *
      * @param stdClass $data Object containing JSON data
@@ -276,10 +311,8 @@ class InstagramLatestPosts
         // Prepare the variables
         $resources = [];
         $i = 0;
-        $videoQuality = $this->videoQuality;
-        $imageQuality = $this->imageQuality;
 
-        foreach ($data->items as $item) {
+        foreach ($data->nodes as $node) {
             // Check if we reached the limit of items
             if ($i == $this->limit) {
                 // Stop the execution of this loop as we have already reached the limit
@@ -287,26 +320,32 @@ class InstagramLatestPosts
             }
 
             // Check if video is available and if it should be shown
-            if (isset($item->videos) && $this->showVideo) {
-                $resources[$i]['url'] = $item->videos->$videoQuality->url;
+            if (isset($node->is_video) && $this->showVideo) {
+                $resources[$i]['url'] = $this->getVideoSource($node->code);
                 $resources[$i]['type'] = 'video';
             } else {
                 // Otherwise set the image preview
-                $resources[$i]['url'] = $item->images->$imageQuality->url;
+                $resources[$i]['url'] = $node->thumbnail_src;
                 $resources[$i]['type'] = 'image';
             }
             
             // Set the caption of the post
-            $resources[$i]['caption'] = $item->caption->text;
+            $resources[$i]['caption'] = $node->caption;
 
             // Set the link to the corresponding post
-            $resources[$i]['link'] = $item->link;
-            if (isset($item->user) && is_object($item->user)) {
-                $resources[$i]['user']['full_name'] = $item->user->full_name;
-                $resources[$i]['user']['id'] = $item->user->id;
-                $resources[$i]['user']['profile_picture'] = $item->user->profile_picture;
-                $resources[$i]['user']['username'] = $item->user->username;
-            }
+            $resources[$i]['link'] = 'https://www.instagram.com/p/' . $node->code . '/';
+
+            // Set full name
+            $resources[$i]['user']['full_name'] = $this->fullName;
+
+            // Set account ID
+            $resources[$i]['user']['id'] = $this->id;
+
+            // Set profile picture
+            $resources[$i]['user']['profile_picture'] = $this->profile_picture;
+
+            // Set username
+            $resources[$i]['user']['username'] = $this->accountName;
 
             $i++;
         }
@@ -380,8 +419,6 @@ $config = [
     'accountName'   => $modx->getOption('accountName', $scriptProperties, '', true),
     'limit'         => $modx->getOption('limit', $scriptProperties, 6, true),
     'showVideo'     => $modx->getOption('showVideo', $scriptProperties, 0, true),
-    'imageQuality'  => $modx->getOption('imageQuality', $scriptProperties, 'low_resolution', true),
-    'videoQuality'  => $modx->getOption('videoQuality', $scriptProperties, 'low_resolution', true),
     'innerTpl'      => $modx->getOption('innerTpl', $scriptProperties, 'Instagram-Inner', true),
     'outerTpl'      => $modx->getOption('outerTpl', $scriptProperties, 'Instagram-Outer', true),
     'errorTpl'      => $modx->getOption('errorTpl', $scriptProperties, 'Instagram-Error', true),
