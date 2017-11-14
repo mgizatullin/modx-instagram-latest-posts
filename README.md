@@ -1,7 +1,7 @@
 # MODX Revolution: latest posts from Instagram
 This snippet allows us to get the latest posts from any Instagram user.
 
-N.B.! Please take into account, 20 latest posts can be returned only as it's limited by Instagram.
+N.B.! Please take into account, 12 latest posts can be returned only as it's limited by Instagram.
 
 |    Property   |                                           Description                                          |     Default    |
 |:-------------:|:----------------------------------------------------------------------------------------------:|:--------------:|
