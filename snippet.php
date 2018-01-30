@@ -42,6 +42,7 @@ class InstagramLatestPosts
     protected $cacheDir;
     protected $error;
     protected $fullName;
+    protected $likes;
     protected $id;
     protected $profile_picture;
 
@@ -331,7 +332,10 @@ class InstagramLatestPosts
             
             // Set the caption of the post
             $resources[$i]['caption'] = $node->caption;
-
+            
+            // Set the likes of the post
+            $resources[$i]['likes'] = $node->likes->count;  
+            
             // Set the link to the corresponding post
             $resources[$i]['link'] = 'https://www.instagram.com/p/' . $node->code . '/';
 
