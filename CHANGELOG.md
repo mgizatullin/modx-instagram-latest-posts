@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.7.0] - 2018-30-01
+### Added
+- Added post comments count
+
 ## [1.6.0] - 2018-30-01
 ### Added
 - Added post likes count. Thanks to @c0mat0se
