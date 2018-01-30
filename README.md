@@ -49,6 +49,7 @@ Follow the steps below
   | [[+user.full_name]] | Full name of account                                  |
   | [[+caption]] | Post caption                                                 |
   | [[+likes]] | Post likes count                                               |
+  | [[+comments]] | Post comments count                                         |
   
   * Instagram-Error
 

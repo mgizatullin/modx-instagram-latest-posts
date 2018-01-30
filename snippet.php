@@ -333,8 +333,11 @@ class InstagramLatestPosts
             // Set the caption of the post
             $resources[$i]['caption'] = $node->caption;
             
+            // Set the number of comments
+            $resources[$i]['comments'] = $node->comments->count;
+
             // Set the likes of the post
-            $resources[$i]['likes'] = $node->likes->count;  
+            $resources[$i]['likes'] = $node->likes->count;
             
             // Set the link to the corresponding post
             $resources[$i]['link'] = 'https://www.instagram.com/p/' . $node->code . '/';
