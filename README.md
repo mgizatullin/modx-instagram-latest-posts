@@ -1,5 +1,5 @@
 # MODX Revolution: latest posts from Instagram
-This snippet allows us to get the latest posts from any Instagram user.
+This snippet allows us to get the latest posts from any non-private Instagram account.
 
 N.B.! Please take into account, 12 latest posts can be returned only as it's limited by Instagram.
 
@@ -50,6 +50,7 @@ Follow the steps below
   | [[+caption]] | Post caption                                                 |
   | [[+likes]] | Post likes count                                               |
   | [[+comments]] | Post comments count                                         |
+  | [[+poster]] | A poster image for video                                      |
   
   * Instagram-Error
 
