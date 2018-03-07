@@ -5,9 +5,10 @@
     <a href="[[+link]]">
         [[+type:is=`image`:then=`
         <img src="[[+url]]" alt="" />
-        `]]
-        [[+type:is=`video`:then=`
-        <video><source src="[[+url]]" type="video/mp4"></video>
+        `:else=`
+        <video width="100%" controls controlsList="nodownload">
+        <source src="[[+url]]" type="video/mp4" poster="[[+poster]]">
+        </video>
         `]]
     </a>
 </li>
