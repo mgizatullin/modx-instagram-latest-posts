@@ -321,9 +321,10 @@ class InstagramLatestPosts
             }
 
             // Check if video is available and if it should be shown
-            if (isset($node->is_video) && $this->showVideo) {
+            if (($node->is_video) && $this->showVideo) {
                 $resources[$i]['url'] = $this->getVideoSource($node->code);
                 $resources[$i]['type'] = 'video';
+                $resources[$i]['poster'] = $node->thumbnail_src;
             } else {
                 // Otherwise set the image preview
                 $resources[$i]['url'] = $node->thumbnail_src;
