@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.8.0] - 2018-03-09
+### Fixed
+- Fixed an issue with video checking. Thanks to @fonpixel
+### Added
+- Added poster parameter. Thanks to @fonpixel
+
 ## [1.7.0] - 2018-30-01
 ### Added
 - Added post comments count

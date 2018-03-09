@@ -42,7 +42,7 @@ Follow the steps below
   |        Placeholder        |                  Description                    |
   |---------------------------|-------------------------------------------------|
   |         [[+link]]         |     The direct link to the corresponding post   |
-  | [[+type]] | The type of the item; it can have two values only: image, video |
+  | [[+type]] | Type of the item; it can have two values only: image, video     |
   | [[+url]] | URL of the image or video depending on what you want to show     |
   | [[+user.profile_picture]] | URL of the user avatar                          |
   | [[+user.username]] | Instagram account name                                 |
