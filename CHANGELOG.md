@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.8.1] - 2018-03-09
+### Fixed
+- Fixed a bug when the snippet is called twice or more times on one page
+### Fixed
+- Fixed cacheDir parameter to save the cache correctly if there is more than one Instagram accounts. Thanks to @fonpixel
+
+## [1.8.0] - 2018-03-09
+### Fixed
+- Fixed an issue with video checking. Thanks to @fonpixel
+### Added
+- Added poster parameter. Thanks to @fonpixel
+
 ## [1.7.0] - 2018-30-01
 ### Added
 - Added post comments count
