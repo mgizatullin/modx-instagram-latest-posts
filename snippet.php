@@ -1,5 +1,4 @@
 <?php
-
 /*
  *
  * @author Igor Sukhinin <suhinin@gmail.com>, Baltic Design Colors Ltd
@@ -123,22 +122,22 @@ if (!class_exists('InstagramLatestPosts')) {
             $data = $this->parseJson($json);
 
             // Check if JSON parsing failed
-            if ($data === null || !isset($data->user->media)) {
+            if ($data === null || !isset($data->graphql->user->edge_owner_to_timeline_media)) {
                 $this->error = 'The JSON parsing failed.';
                 return false;
             }
 
             // Set full name
-            $this->fullName = (isset($data->user->full_name)) ? $data->user->full_name : '';
+            $this->fullName = (isset($data->graphql->user->full_name)) ? $data->graphql->user->full_name : '';
 
             // Set account ID
-            $this->id = (isset($data->user->id)) ? $data->user->id : '';
+            $this->id = (isset($data->graphql->user->id)) ? $data->graphql->user->id : '';
 
             // Set profile picture
-            $this->profile_picture = (isset($data->user->profile_pic_url_hd)) ? $data->user->profile_pic_url_hd : '';
+            $this->profile_picture = (isset($data->graphql->user->profile_pic_url_hd)) ? $data->graphql->user->profile_pic_url_hd : '';
 
             // Get JSON data in an object containing resources
-            $resources = $this->getResources($data->user->media);
+            $resources = $this->getResources($data->graphql->user->edge_owner_to_timeline_media);
 
             // Check if there is no any resource
             if (count($resources) == 0) {
@@ -313,7 +312,7 @@ if (!class_exists('InstagramLatestPosts')) {
             $resources = [];
             $i = 0;
 
-            foreach ($data->nodes as $node) {
+            foreach ($data->edges as $node) {
                 // Check if we reached the limit of items
                 if ($i == $this->limit) {
                     // Stop the execution of this loop as we have already reached the limit
@@ -321,27 +320,27 @@ if (!class_exists('InstagramLatestPosts')) {
                 }
 
                 // Check if video is available and if it should be shown
-                if (($node->is_video) && $this->showVideo) {
-                    $resources[$i]['url'] = $this->getVideoSource($node->code);
+                if (($node->node->is_video) && $this->showVideo) {
+                    $resources[$i]['url'] = $this->getVideoSource($node->node->shortcode);
                     $resources[$i]['type'] = 'video';
-                    $resources[$i]['poster'] = $node->thumbnail_src;
+                    $resources[$i]['poster'] = $node->node->thumbnail_src;
                 } else {
                     // Otherwise set the image preview
-                    $resources[$i]['url'] = $node->thumbnail_src;
+                    $resources[$i]['url'] = $node->node->thumbnail_src;
                     $resources[$i]['type'] = 'image';
                 }
 
                 // Set the caption of the post
-                $resources[$i]['caption'] = $node->caption;
+                $resources[$i]['caption'] = $node->node->edge_media_to_caption->edges[0]->node->text;
 
                 // Set the number of comments
-                $resources[$i]['comments'] = $node->comments->count;
+                $resources[$i]['comments'] = $node->node->edge_media_to_comment->count;
 
                 // Set the likes of the post
-                $resources[$i]['likes'] = $node->likes->count;
+                $resources[$i]['likes'] = $node->node->edge_media_preview_like->count;
 
                 // Set the link to the corresponding post
-                $resources[$i]['link'] = 'https://www.instagram.com/p/' . $node->code . '/';
+                $resources[$i]['link'] = 'https://www.instagram.com/p/' . $node->node->shortcode . '/';
 
                 // Set full name
                 $resources[$i]['user']['full_name'] = $this->fullName;
