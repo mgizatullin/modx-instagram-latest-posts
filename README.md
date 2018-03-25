@@ -88,7 +88,11 @@ Donations
 
 The donations are not required - just a few "thank you" words from you would be really great to get as well :) Though if you like this MODX Extra and you would like me to release the updates more often, feel free to send any amount through PayPal.
 
-<center>[![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/IgorSukhinin/10)<br>
+<p align="center">
+	<a href="https://www.paypal.me/IgorSukhinin/10"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" /></a>
+</p>
+
+<center>
 Thanks to all supporters :)
 </center>
 
