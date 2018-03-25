@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.9.0] - 2018-03-25
+### Fixed
+- Fixed the code to follow the latest changes in Instagram feed. Thanks to @fonpixel
+- Updated the snippet version
+- Updated README file
+
 ## [1.8.1] - 2018-03-09
 ### Fixed
 - Fixed a bug when the snippet is called twice or more times on one page

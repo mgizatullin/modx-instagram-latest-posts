@@ -76,3 +76,19 @@ Usage
 	&cacheEnabled=`1`
 	&cacheExpTime=`1800`
 ]]
+```
+
+Contributing
+------------
+
+If you have any idea or bug fix, feel free to fork the code and submit your pull request back to me. I will be happy to include your awesome changes in the code!
+
+Donations
+---------
+
+The donations are not required - just a few "thank you" words from you would be really great to get as well :) Though if you like this MODX Extra and you would like me to release the updates more often, feel free to send any amount through PayPal.
+
+<center>[![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/IgorSukhinin/10)<br>
+Thanks to all supporters :)
+</center>
+

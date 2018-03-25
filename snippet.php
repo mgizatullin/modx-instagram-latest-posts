@@ -3,7 +3,7 @@
  *
  * @author Igor Sukhinin <suhinin@gmail.com>, Baltic Design Colors Ltd
  * @license: https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version: 1.8.1
+ * @version: 1.9.0
  *
  * Variables
  * ---------
