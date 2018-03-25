@@ -90,9 +90,6 @@ The donations are not required - just a few "thank you" words from you would be 
 
 <p align="center">
 	<a href="https://www.paypal.me/IgorSukhinin/10"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" /></a>
+	<br>
+	Thanks to all supporters :)
 </p>
-
-<center>
-Thanks to all supporters :)
-</center>
-
